@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "next": "14.2.2",
+    "nextjs-cors": "^2.2.0",
     "react": "^18",
     "react-dom": "^18",
+    "supertokens-auth-react": "^0.40.0",
+    "supertokens-node": "^17.0.5",
+    "supertokens-web-js": "^0.10.1",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
