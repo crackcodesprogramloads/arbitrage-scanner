@@ -1,5 +1,5 @@
 import SuperTokens from "supertokens-node";
-import ThirdPartyEmailPasswordNode from "supertokens-node/recipe/thirdpartyemailpassword";
+import ThirdPartyEmailPasswordNode, { type APIInterface } from "supertokens-node/recipe/thirdpartyemailpassword";
 import SessionNode from "supertokens-node/recipe/session";
 import { appInfo } from "./appInfo";
 import { TypeInput } from "supertokens-node/types";
@@ -16,6 +16,47 @@ export const backendConfig = (): TypeInput => {
       ThirdPartyEmailPasswordNode.init({
         // We have provided you with development keys which you can use for testing.
         // IMPORTANT: Please replace them with your own OAuth keys for production use.
+
+        override: {
+          apis: (originalImplementation) => {
+            const thirdPartySignInUpPOST: ThirdPartyEmailPasswordNode.APIInterface["thirdPartySignInUpPOST"] = async (input) => {
+              if (originalImplementation.thirdPartySignInUpPOST === undefined) {
+                throw Error("Should never come here");
+              }
+
+              const data = await originalImplementation.thirdPartySignInUpPOST(input);
+
+              // todo: POST to database here
+              if (data.status === "OK") {
+                const superTokensUserID = data.user.id;
+              }
+
+              return data;
+            };
+
+            const emailPasswordSignUpPOST: ThirdPartyEmailPasswordNode.APIInterface["emailPasswordSignUpPOST"] = async (input) => {
+              if (originalImplementation.emailPasswordSignUpPOST === undefined) {
+                throw Error("Should never come here");
+              }
+
+              const data = await originalImplementation.emailPasswordSignUpPOST(input);
+
+              // todo: POST to database here
+              if (data.status === "OK") {
+                const superTokensUserID = data.user.id;
+              }
+
+              return data;
+            };
+
+            return {
+              ...originalImplementation,
+              thirdPartySignInUpPOST,
+              emailPasswordSignUpPOST,
+            };
+          },
+        },
+
         providers: [
           {
             config: {

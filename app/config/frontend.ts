@@ -3,7 +3,6 @@ import SessionReact from "supertokens-auth-react/recipe/session";
 import { appInfo } from "./appInfo";
 import { useRouter } from "next/navigation";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
-import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 
 const routerInfo: { router?: ReturnType<typeof useRouter>; pathName?: string } = {};
 
