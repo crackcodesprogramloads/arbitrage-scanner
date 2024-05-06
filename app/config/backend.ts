@@ -3,6 +3,7 @@ import ThirdPartyEmailPasswordNode, { type APIInterface } from "supertokens-node
 import SessionNode from "supertokens-node/recipe/session";
 import { appInfo } from "./appInfo";
 import { TypeInput } from "supertokens-node/types";
+import { createUser } from "../server-actions/createUser";
 
 export const backendConfig = (): TypeInput => {
   return {
@@ -28,7 +29,11 @@ export const backendConfig = (): TypeInput => {
 
               // todo: POST to database here
               if (data.status === "OK") {
-                const superTokensUserID = data.user.id;
+                const authUserID = data.user.id;
+                const authUserEmail = data.user.emails[0];
+                const authUserTimeJoined = data.user.timeJoined;
+
+                await createUser(authUserID, authUserEmail, authUserTimeJoined);
               }
 
               return data;
@@ -43,7 +48,11 @@ export const backendConfig = (): TypeInput => {
 
               // todo: POST to database here
               if (data.status === "OK") {
-                const superTokensUserID = data.user.id;
+                const authUserID = data.user.id;
+                const authUserEmail = data.user.emails[0];
+                const authUserTimeJoined = data.user.timeJoined;
+
+                await createUser(authUserID, authUserEmail, authUserTimeJoined);
               }
 
               return data;
