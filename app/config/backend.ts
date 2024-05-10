@@ -3,7 +3,6 @@ import ThirdPartyEmailPasswordNode, { type APIInterface } from "supertokens-node
 import SessionNode from "supertokens-node/recipe/session";
 import { appInfo } from "./appInfo";
 import { TypeInput } from "supertokens-node/types";
-import { createUser } from "../server-actions/createUser";
 
 export const backendConfig = (): TypeInput => {
   return {
@@ -18,53 +17,53 @@ export const backendConfig = (): TypeInput => {
         // We have provided you with development keys which you can use for testing.
         // IMPORTANT: Please replace them with your own OAuth keys for production use.
 
-        override: {
-          apis: (originalImplementation) => {
-            const thirdPartySignInUpPOST: ThirdPartyEmailPasswordNode.APIInterface["thirdPartySignInUpPOST"] = async (input) => {
-              if (originalImplementation.thirdPartySignInUpPOST === undefined) {
-                throw Error("Should never come here");
-              }
+        // override: {
+        //   apis: (originalImplementation) => {
+        //     const thirdPartySignInUpPOST: ThirdPartyEmailPasswordNode.APIInterface["thirdPartySignInUpPOST"] = async (input) => {
+        //       if (originalImplementation.thirdPartySignInUpPOST === undefined) {
+        //         throw Error("Should never come here");
+        //       }
 
-              const data = await originalImplementation.thirdPartySignInUpPOST(input);
+        //       const data = await originalImplementation.thirdPartySignInUpPOST(input);
 
-              // todo: POST to database here
-              if (data.status === "OK") {
-                const authUserID = data.user.id;
-                const authUserEmail = data.user.emails[0];
-                const authUserTimeJoined = data.user.timeJoined;
+        //       // todo: POST to database here
+        //       if (data.status === "OK") {
+        //         const authUserID = data.user.id;
+        //         const authUserEmail = data.user.emails[0];
+        //         const authUserTimeJoined = data.user.timeJoined;
 
-                await createUser(authUserID, authUserEmail, authUserTimeJoined);
-              }
+        //         await createUser(authUserID, authUserEmail, authUserTimeJoined);
+        //       }
 
-              return data;
-            };
+        //       return data;
+        //     };
 
-            const emailPasswordSignUpPOST: ThirdPartyEmailPasswordNode.APIInterface["emailPasswordSignUpPOST"] = async (input) => {
-              if (originalImplementation.emailPasswordSignUpPOST === undefined) {
-                throw Error("Should never come here");
-              }
+        //     const emailPasswordSignUpPOST: ThirdPartyEmailPasswordNode.APIInterface["emailPasswordSignUpPOST"] = async (input) => {
+        //       if (originalImplementation.emailPasswordSignUpPOST === undefined) {
+        //         throw Error("Should never come here");
+        //       }
 
-              const data = await originalImplementation.emailPasswordSignUpPOST(input);
+        //       const data = await originalImplementation.emailPasswordSignUpPOST(input);
 
-              // todo: POST to database here
-              if (data.status === "OK") {
-                const authUserID = data.user.id;
-                const authUserEmail = data.user.emails[0];
-                const authUserTimeJoined = data.user.timeJoined;
+        //       // todo: POST to database here
+        //       if (data.status === "OK") {
+        //         const authUserID = data.user.id;
+        //         const authUserEmail = data.user.emails[0];
+        //         const authUserTimeJoined = data.user.timeJoined;
 
-                await createUser(authUserID, authUserEmail, authUserTimeJoined);
-              }
+        //         await createUser(authUserID, authUserEmail, authUserTimeJoined);
+        //       }
 
-              return data;
-            };
+        //       return data;
+        //     };
 
-            return {
-              ...originalImplementation,
-              thirdPartySignInUpPOST,
-              emailPasswordSignUpPOST,
-            };
-          },
-        },
+        //     return {
+        //       ...originalImplementation,
+        //       thirdPartySignInUpPOST,
+        //       emailPasswordSignUpPOST,
+        //     };
+        //   },
+        // },
 
         providers: [
           {
