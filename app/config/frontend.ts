@@ -14,6 +14,25 @@ export function setRouter(router: ReturnType<typeof useRouter>, pathName: string
 export const frontendConfig = (): SuperTokensConfig => {
   return {
     appInfo,
+    getRedirectionURL: async (context) => {
+      if (context.action === "SUCCESS" && context.newSessionCreated) {
+        // called on a successful sign in / up. Where should the user go next?
+        let redirectToPath = context.redirectToPath;
+        if (redirectToPath !== undefined) {
+          // we are navigating back to where the user was before they authenticated
+          return redirectToPath;
+        }
+        if (context.createdNewUser) {
+          // user signed up
+          return "/dashboard";
+        } else {
+          // user signed in
+          return "/dashboard";
+        }
+      }
+      // return undefined to let the default behaviour play out
+      return undefined;
+    },
     recipeList: [
       ThirdPartyEmailPasswordReact.init({
         signInAndUpFeature: {
