@@ -7,7 +7,7 @@ import { signOut } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
 
 import LOADING from "../../../public/loading.svg";
 
-const buttonCSS = "w-28 fixed top-2 right-8 px-4 py-2 flex items-center justify-center border rounded-lg";
+const buttonCSS = "w-40 sm:w-28 h-10 lg:fixed lg:right-8 px-4 py-2 flex items-center justify-center text-lg sm:border rounded-lg";
 
 export default function AuthButton() {
   const session = useSessionContext();
@@ -20,7 +20,7 @@ export default function AuthButton() {
   if (session.loading) {
     return (
       <button className={buttonCSS}>
-        <Image className="animate-spin" src={LOADING} alt="loading icon" width={24} height={24} />
+        <Image className="animate-spin" src={LOADING} alt="loading icon" width={28} height={28} />
       </button>
     );
   } else if (session.doesSessionExist) {
