@@ -1,10 +1,14 @@
+import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/navbar/Navbar";
-import { SuperTokensProvider } from "./components/SuperTokensProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+import { SuperTokensProvider } from "./components/SuperTokensProvider";
+import Navbar from "./components/navbar/Navbar";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: "300",
+});
 
 export const metadata: Metadata = {
   title: "CoinNewsAggregator",
@@ -19,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SuperTokensProvider>
-        <body className={`${inter.className} text-gray-300`}>
+        <body className={`${montserrat.className} text-gray-300`}>
           <Navbar />
           {children}
         </body>
