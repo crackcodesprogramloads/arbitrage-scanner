@@ -91,7 +91,7 @@ export default function Searchbar() {
           type="text"
           placeholder="Search coin..."
         />
-        <button type="submit">
+        <button type="submit" aria-label="submit search">
           <svg
             className="cursor-pointer hover:text-white"
             stroke="currentColor"

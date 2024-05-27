@@ -2,7 +2,7 @@ import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { SuperTokensProvider } from "./components/SuperTokensProvider";
+import { SuperTokensProvider } from "./components/auth/SuperTokensProvider";
 import Navbar from "./components/navbar/Navbar";
 
 const montserrat = Montserrat({
