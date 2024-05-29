@@ -8,13 +8,16 @@ generator client {
 }
 
 model Watchlist {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  authId   String   @unique
-  coinList String[] @db.ObjectId
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  authId  String   @unique
+  coinIds String[] @db.ObjectId
+  coins   Coin[]   @relation(fields: [coinIds], references: [id])
 }
 
 model Coin {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  name   String
-  ticker String
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  ticker       String
+  watchlistIds String[]    @db.ObjectId
+  watchlists   Watchlist[] @relation(fields: [watchlistIds], references: [id])
 }

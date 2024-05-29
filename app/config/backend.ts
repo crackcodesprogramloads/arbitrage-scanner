@@ -14,57 +14,6 @@ export const backendConfig = (): TypeInput => {
     appInfo,
     recipeList: [
       ThirdPartyEmailPasswordNode.init({
-        // We have provided you with development keys which you can use for testing.
-        // IMPORTANT: Please replace them with your own OAuth keys for production use.
-
-        // override: {
-        //   apis: (originalImplementation) => {
-        //     const thirdPartySignInUpPOST: ThirdPartyEmailPasswordNode.APIInterface["thirdPartySignInUpPOST"] = async (input) => {
-        //       if (originalImplementation.thirdPartySignInUpPOST === undefined) {
-        //         throw Error("Should never come here");
-        //       }
-
-        //       const data = await originalImplementation.thirdPartySignInUpPOST(input);
-
-        //       // todo: POST to database here
-        //       if (data.status === "OK") {
-        //         const authUserID = data.user.id;
-        //         const authUserEmail = data.user.emails[0];
-        //         const authUserTimeJoined = data.user.timeJoined;
-
-        //         await createUser(authUserID, authUserEmail, authUserTimeJoined);
-        //       }
-
-        //       return data;
-        //     };
-
-        //     const emailPasswordSignUpPOST: ThirdPartyEmailPasswordNode.APIInterface["emailPasswordSignUpPOST"] = async (input) => {
-        //       if (originalImplementation.emailPasswordSignUpPOST === undefined) {
-        //         throw Error("Should never come here");
-        //       }
-
-        //       const data = await originalImplementation.emailPasswordSignUpPOST(input);
-
-        //       // todo: POST to database here
-        //       if (data.status === "OK") {
-        //         const authUserID = data.user.id;
-        //         const authUserEmail = data.user.emails[0];
-        //         const authUserTimeJoined = data.user.timeJoined;
-
-        //         await createUser(authUserID, authUserEmail, authUserTimeJoined);
-        //       }
-
-        //       return data;
-        //     };
-
-        //     return {
-        //       ...originalImplementation,
-        //       thirdPartySignInUpPOST,
-        //       emailPasswordSignUpPOST,
-        //     };
-        //   },
-        // },
-
         providers: [
           {
             config: {
@@ -97,7 +46,6 @@ export const backendConfig = (): TypeInput => {
 };
 
 let initialized = false;
-// This function is used in your APIs to make sure SuperTokens is initialised
 export function ensureSuperTokensInit() {
   if (!initialized) {
     SuperTokens.init(backendConfig());
