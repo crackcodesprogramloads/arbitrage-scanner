@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { signOut } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
@@ -11,10 +12,11 @@ const buttonCSS = "w-40 sm:w-28 h-10 lg:absolute lg:right-8 px-4 py-2 flex items
 
 export default function AuthButton() {
   const session = useSessionContext();
+  const router = useRouter();
 
   async function onLogout() {
     await signOut();
-    window.location.href = "/";
+    router.push("/");
   }
 
   if (session.loading) {
@@ -31,7 +33,7 @@ export default function AuthButton() {
     );
   } else if (!session.doesSessionExist) {
     return (
-      <button onClick={() => (window.location.href = "/auth")} className={buttonCSS}>
+      <button onClick={() => router.push("/auth")} className={buttonCSS}>
         Sign in
       </button>
     );

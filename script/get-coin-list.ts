@@ -19,12 +19,10 @@ new Array(max_page).fill(0).forEach(async (_, index) => {
     .then(async (response) => {
       const data = response.map((coin: { name: string; symbol: string }) => {
         // insert row into model coin
-        const inWatchlist = false;
 
         return {
           name: coin.name,
           ticker: coin.symbol,
-          inWatchlist,
         };
       });
 
