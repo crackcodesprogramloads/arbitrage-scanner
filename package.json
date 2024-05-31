@@ -11,7 +11,13 @@
     "test-ui": "exec playwright test --project=chromium --ui"
   },
   "dependencies": {
+    "@apollo/client": "^3.10.4",
+    "@apollo/experimental-nextjs-app-support": "^0.11.0",
+    "@apollo/server": "^4.10.4",
+    "@as-integrations/next": "^3.0.0",
     "@prisma/client": "^5.13.0",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
     "next": "14.2.2",
     "nextjs-cors": "^2.2.0",
     "react": "^18",

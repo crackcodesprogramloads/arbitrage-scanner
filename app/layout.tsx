@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { SuperTokensProvider } from "./components/auth/SuperTokensProvider";
 import Navbar from "./components/navbar/Navbar";
+import { ApolloClientWrapper } from "./lib/ApolloClientWrapper";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -24,8 +25,10 @@ export default function RootLayout({
     <html lang="en">
       <SuperTokensProvider>
         <body className={`${montserrat.className} text-gray-300`}>
-          <Navbar />
-          {children}
+          <ApolloClientWrapper>
+            <Navbar />
+            {children}
+          </ApolloClientWrapper>
         </body>
       </SuperTokensProvider>
     </html>
