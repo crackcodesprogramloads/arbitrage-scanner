@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { SuperTokensProvider } from "./components/auth/SuperTokensProvider";
-import Navbar from "./components/navbar/Navbar";
 import { ApolloClientWrapper } from "./lib/ApolloClientWrapper";
+
+import Navbar from "./components/navbar/Navbar";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

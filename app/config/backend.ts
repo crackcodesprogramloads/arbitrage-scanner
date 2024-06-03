@@ -7,6 +7,7 @@ import { TypeInput } from "supertokens-node/types";
 export const backendConfig = (): TypeInput => {
   return {
     framework: "custom",
+    // debug: true,
     supertokens: {
       connectionURI: "https://st-dev-928cb160-05dd-11ef-a26e-db334e00f86d.aws.supertokens.io",
       apiKey: "=uV=nDrOJpgGAKMIdZyokBTO90",
