@@ -1,44 +1,50 @@
 "use server";
 
 import prisma from "../lib/prismaClient";
-import getUserWatchlist from "./getUserWatchlist";
+import getSSRSessionHelper from "../server-functions/getSSRSessionHelper";
+import { getUserWatchlist } from "../server-functions/getUserWatchlist";
 
-export async function updateWatchlist(authUserID: string, coinId: string, coinTicker: string) {
-  if (!authUserID || !coinId || !coinTicker) {
-    throw Error("Missing required parameters.");
+export async function updateWatchlist(coinId: string) {
+  const { authId } = await getSSRSessionHelper();
+
+  if (!authId) {
+    throw Error("Missing authId in updateWatchlist");
   }
 
-  const userWatchlist = await getUserWatchlist(authUserID);
+  const userWatchlist = await getUserWatchlist();
 
   if (!userWatchlist) {
     try {
+      const coinIds = [coinId];
       await prisma.watchlist.create({
         data: {
-          authId: authUserID,
-          coinList: [coinId],
+          authId,
+          coinIds,
         },
       });
+      return coinIds;
     } catch (error: any) {
       throw Error(`Error creating new watchlist: ${error.message}`);
     }
   } else {
     let updatedCoinList = [];
 
-    const isCoinStarred = userWatchlist.coinList.includes(coinId);
+    const isCoinStarred = userWatchlist.coinIds.includes(coinId);
 
     if (isCoinStarred) {
-      updatedCoinList = userWatchlist.coinList.filter((existingCoinId) => existingCoinId !== coinId);
+      updatedCoinList = userWatchlist.coinIds.filter((existingCoinId) => existingCoinId !== coinId);
     } else {
-      updatedCoinList = [...userWatchlist.coinList, coinId];
+      updatedCoinList = [...userWatchlist.coinIds, coinId];
     }
 
     try {
       await prisma.watchlist.update({
-        where: { authId: authUserID },
+        where: { authId },
         data: {
-          coinList: updatedCoinList,
+          coinIds: updatedCoinList,
         },
       });
+      return updatedCoinList;
     } catch (error: any) {
       throw Error(`Error updating users watchlist: ${error.message}`);
     }

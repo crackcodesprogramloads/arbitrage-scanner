@@ -1,31 +1,38 @@
 "use client";
 
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { useCallback, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-import { searchCoins } from "@/app/server-actions/searchCoins";
-import { useEffect, useState } from "react";
+import { SearchCoinsResult } from "@/app/server-functions/searchCoins";
 import { updateWatchlist } from "@/app/server-actions/updateWatchlist";
-import getUserWatchlist from "@/app/server-actions/getUserWatchlist";
+import { WatchlistByUserIdQueryResult } from "@/app/server-functions/getUserWatchlist";
 
 type Coin = { name: string; ticker: string; id: string };
 
-export default function Searchbar() {
+export default function Searchbar({
+  searchResult,
+  watchlist,
+}: {
+  searchResult: SearchCoinsResult;
+  watchlist: WatchlistByUserIdQueryResult;
+}) {
   const [search, setSearch] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [coinData, setCoinData] = useState<Coin[]>([]);
-  const [watchlistCoinList, setWatchlistCoinList] = useState<string[]>([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(Boolean(searchResult));
+  const [watchlistCoinList, setWatchlistCoinList] = useState(watchlist?.coinIds ?? []);
 
-  const session = useSessionContext();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    getWatchlistCoins().then();
-  }, []);
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
 
-  useEffect(() => {
-    if (search.trim().length === 0) {
-      setIsDropdownOpen(false);
-    }
-  }, [search]);
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target instanceof HTMLInputElement) {
@@ -35,47 +42,22 @@ export default function Searchbar() {
 
   const handleCoinRetrieval = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const filteredCoins = await searchCoins(search);
 
-    // @ts-ignore
-    const filteredCoinsArray = filteredCoins?.map((coin) => {
-      return { ...coin, id: coin._id.$oid };
-    });
+    router.push(pathname + "?" + createQueryString("search", search));
 
-    setCoinData(filteredCoinsArray);
     setIsDropdownOpen(true);
-  };
-
-  const getWatchlistCoins = async () => {
-    try {
-      if (session.loading) {
-        throw Error("Auth session currently loading, please try adding coin again.");
-      }
-
-      const userID = session.userId;
-
-      const userWatchlist = await getUserWatchlist(userID);
-
-      if (!userWatchlist) {
-        return;
-      }
-
-      setWatchlistCoinList(userWatchlist.coinList);
-    } catch (error) {
-      // toast the error message here to the user
-    }
   };
 
   const handleAddCoinToWatchlist = async (coin: Coin) => {
     try {
-      if (session.loading) {
-        throw Error("Auth session currently loading, please try adding coin again.");
-      }
+      const coinIds = await updateWatchlist(coin.id);
 
-      const userID = session.userId;
+      setWatchlistCoinList(coinIds);
 
-      await updateWatchlist(userID, coin.id, coin.ticker);
-      await getWatchlistCoins();
+      router.refresh();
+      router.push("/dashboard");
+      // router.replace("/dashboard", { shallow: true });
+      setIsDropdownOpen(false);
     } catch (error) {
       // toast the error message here to the user
     }
@@ -110,12 +92,12 @@ export default function Searchbar() {
 
       <table
         className={`w-full max-h-40 ${
-          coinData && isDropdownOpen ? "inline-block" : "hidden"
+          searchResult && isDropdownOpen ? "inline-block" : "hidden"
         } py-1 flex flex-col items-center justify-between gap-1 overflow-y-scroll`}
       >
         <tbody>
-          {coinData?.map((coin) => (
-            <tr className="w-full border-b border-gray-700" key={coin.ticker}>
+          {searchResult?.map((coin) => (
+            <tr className="w-full border-b border-gray-700" key={coin.id}>
               <td className="w-2/3">{coin.name}</td>
               <td className="w-1/3">{coin.ticker}</td>
               <td className="w-1/3">
