@@ -2,8 +2,11 @@ import { ContextValue } from "./types";
 
 export const resolvers = {
   Query: {
-    coinPrice: async (_: any, { coin }: { coin: string }, { dataSources }: ContextValue) => {
-      return dataSources.kucoinAPI.getCoinPrice(coin);
+    kucoinPrice: async (_: any, { coin }: { coin: string }, { dataSources }: ContextValue) => {
+      return dataSources.kucoinAPI.getKucoinPrice(coin);
+    },
+    binancePrice: async (_: any, { coin }: { coin: string }, { dataSources }: ContextValue) => {
+      return dataSources.binanceAPI.getBinancePrice(coin);
     },
   },
 };

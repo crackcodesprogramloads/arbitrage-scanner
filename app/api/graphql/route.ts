@@ -3,7 +3,7 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 
 import { ApolloServer } from "@apollo/server";
 
-import { KucoinAPI } from "@/app/graphql/dataSources";
+import { BinanceAPI, KucoinAPI } from "@/app/graphql/dataSources";
 import { resolvers } from "@/app/graphql/resolvers";
 import { ContextValue } from "@/app/graphql/types";
 import { typeDefs } from "@/app/graphql/schemaTypes";
@@ -21,6 +21,7 @@ const handler = startServerAndCreateNextHandler<NextRequest, ContextValue>(serve
       // passing in our server's cache.
       dataSources: {
         kucoinAPI: new KucoinAPI({ cache }),
+        binanceAPI: new BinanceAPI({ cache }),
       },
     };
   },

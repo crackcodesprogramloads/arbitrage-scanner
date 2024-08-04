@@ -1,17 +1,16 @@
 import { cookies } from "next/headers";
-import gql from "graphql-tag";
 import { query } from "@/app/lib/getApolloClient";
+import gql from "graphql-tag";
 
 const PRICE_QUERY = gql`
   query Query($coin: String) {
-    kucoinPrice(coin: $coin)
+    binancePrice(coin: $coin)
   }
 `;
 
-export const testKucoin = async (coin: string) => {
-  //   let token = await ourCookies.get("jwtToken")!.value;
+export const testBinance = async (coin: string) => {
   let token = cookies().get("sAccessToken")!.value;
-  //   let jwtToken = JSON.parse(token);
+
   const { data } = await query({
     query: PRICE_QUERY,
     variables: { coin },
@@ -22,5 +21,5 @@ export const testKucoin = async (coin: string) => {
     },
   });
 
-  return data.kucoinPrice;
+  return data.binancePrice;
 };

@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 
 export const typeDefs = gql`
   type Query {
-    coinPrice(coin: String): String!
+    kucoinPrice(coin: String): String!
+    binancePrice(coin: String): String
   }
 `;
