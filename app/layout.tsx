@@ -6,6 +6,7 @@ import { SuperTokensProvider } from "./components/auth/SuperTokensProvider";
 import { ApolloClientWrapper } from "./lib/ApolloClientWrapper";
 
 import Navbar from "./components/navbar/Navbar";
+import { cn } from "@/lib/utils";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
