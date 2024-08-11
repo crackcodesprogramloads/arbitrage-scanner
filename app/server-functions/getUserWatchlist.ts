@@ -20,4 +20,18 @@ export const getUserWatchlist = async () => {
   return userWatchlist;
 };
 
+export const getCoinsInWatchlist = async () => {
+  try {
+    const watchlist = await getUserWatchlist();
+
+    const coins = watchlist?.coins.map((coin) => {
+      return coin.ticker.toUpperCase();
+    });
+
+    return coins;
+  } catch (error) {
+    console.log("Error getting coins in watchlist");
+  }
+};
+
 export type WatchlistByUserIdQueryResult = Prisma.PromiseReturnType<typeof getUserWatchlist>;
