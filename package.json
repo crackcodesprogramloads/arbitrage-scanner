@@ -1,5 +1,5 @@
 {
-  "name": "coin-news-aggregator",
+  "name": "arbitrage-scanner",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -23,6 +23,7 @@
     "graphql-tag": "^2.12.6",
     "lucide-react": "^0.427.0",
     "next": "14.2.2",
+    "next-client-cookies": "^1.1.1",
     "nextjs-cors": "^2.2.0",
     "react": "^18",
     "react-dom": "^18",
