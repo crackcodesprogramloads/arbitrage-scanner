@@ -7,6 +7,7 @@ import { ApolloClientWrapper } from "./lib/ApolloClientWrapper";
 
 import Navbar from "./components/navbar/Navbar";
 import { cn } from "@/lib/utils";
+import { CookiesProvider } from "next-client-cookies/server";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -28,8 +29,10 @@ export default function RootLayout({
       <SuperTokensProvider>
         <body className={`${montserrat.className} text-gray-300`}>
           <ApolloClientWrapper>
-            <Navbar />
-            {children}
+            <CookiesProvider>
+              <Navbar />
+              {children}
+            </CookiesProvider>
           </ApolloClientWrapper>
         </body>
       </SuperTokensProvider>

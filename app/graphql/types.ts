@@ -1,3 +1,4 @@
+import gql from "graphql-tag";
 import { BinanceAPI, KucoinAPI } from "./dataSources";
 
 export type ContextValue = {
@@ -6,3 +7,10 @@ export type ContextValue = {
     binanceAPI: BinanceAPI;
   };
 };
+
+export const typeDefs = gql`
+  type Query {
+    kucoinPrice(coin: String): String!
+    binancePrice(coin: String): String!
+  }
+`;

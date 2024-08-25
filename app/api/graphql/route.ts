@@ -5,8 +5,7 @@ import { ApolloServer } from "@apollo/server";
 
 import { BinanceAPI, KucoinAPI } from "@/app/graphql/dataSources";
 import { resolvers } from "@/app/graphql/resolvers";
-import { ContextValue } from "@/app/graphql/types";
-import { typeDefs } from "@/app/graphql/schemaTypes";
+import { ContextValue, typeDefs } from "@/app/graphql/types";
 
 const server = new ApolloServer<ContextValue>({
   resolvers,
